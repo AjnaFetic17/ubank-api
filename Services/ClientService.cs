@@ -38,12 +38,7 @@ namespace ubank_api.Services
 
             if (items != null)
             {
-                var listOfClients = new List<ClientOut>();
-
-                foreach (var item in items)
-                {
-                    listOfClients.Add(new ClientOut(item));
-                }
+                var listOfClients = items.Select(i=>new ClientOut(i)).ToList();
 
                 _cacheService.AddToCache(CacheKeys.Client, listOfClients);
 

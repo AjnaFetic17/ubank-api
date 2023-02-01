@@ -12,6 +12,8 @@ namespace ubank_api.Data
 
         public DbSet<Client> Clients { get; set; }
 
+        public DbSet<Account> Accounts { get; set; }
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         public override int SaveChanges()

@@ -40,6 +40,8 @@ namespace ubank_api.Data.Models.Entities
         [Required]
         public double Salary { get; set; }
 
+        public List<Account>? Accounts { get; set; }
+
         public Client() { }
 
         public Client(ClientIn clientIn)
