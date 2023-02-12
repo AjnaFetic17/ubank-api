@@ -24,10 +24,10 @@ namespace ubank_api.Data.Models.Entities
 
         public Transaction() { }
 
-        public Transaction(TransactionIn transactionIn)
+        public Transaction(TransactionIn transactionIn, Guid toAccountId)
         {
             FromAccountId = transactionIn.FromAccountId;
-            ToAccountId = transactionIn.ToAccountId;
+            ToAccountId = toAccountId;
             Amount = transactionIn.Amount;
             TransactionDate = transactionIn.TransactionDate;
         }

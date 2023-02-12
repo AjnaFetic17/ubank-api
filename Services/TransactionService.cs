@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Diagnostics;
 using ubank_api.Data;
 using ubank_api.Data.Helpers;
@@ -25,7 +26,7 @@ namespace ubank_api.Services
             var result = _context.Transactions.Include(trans => trans.FromAccount).ThenInclude(acc => acc!.Client).
                 Include(trans => trans.FromAccount).ThenInclude(acc => acc!.Client)
                 .Where(trans => (trans.FromAccount!.Client!.Id == clientId && trans.FromAccount!.IsDeleted == false && trans.FromAccount.Client!.IsDeleted == false)
-                || (trans.ToAccount!.Client!.Id == clientId && trans.ToAccount!.IsDeleted == false && trans.ToAccount!.Client!.IsDeleted == false) 
+                || (trans.ToAccount!.Client!.Id == clientId && trans.ToAccount!.IsDeleted == false && trans.ToAccount!.Client!.IsDeleted == false)
                 && trans.IsDeleted == false).ToList();
 
             if (result != null)
@@ -50,15 +51,17 @@ namespace ubank_api.Services
 
         public TransactionOut? CreateTransaction(TransactionIn transactionIn)
         {
-            if (!_context.Accounts.Any(acc => acc.Id == transactionIn.FromAccountId) || !_context.Accounts.Any(acc => acc.Id == transactionIn.ToAccountId))
+            var toAccountId = _context.Accounts.Where(acc => acc.AccountNumber == transactionIn.ToAccountNumber).SingleOrDefault()?.Id;
+
+            if (!_context.Accounts.Any(acc => acc.Id == transactionIn.FromAccountId) || toAccountId == null || (transactionIn.FromAccountId == toAccountId))
             {
                 throw new ArgumentException("Accounts with provided ID are not in database.");
             }
 
-            var transaction = new Transaction(transactionIn);
+            var transaction = new Transaction(transactionIn, (Guid)toAccountId);
 
-                _accountService.Withdraw(transactionIn.FromAccountId, transactionIn.Amount);
-                _accountService.Deposit(transactionIn.ToAccountId, transactionIn.Amount);
+            _accountService.Withdraw(transactionIn.FromAccountId, transactionIn.Amount);
+            _accountService.Deposit((Guid)toAccountId, transactionIn.Amount);
 
             _context.Add(transaction);
             _context.SaveChanges();
