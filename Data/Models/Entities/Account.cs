@@ -19,6 +19,10 @@ namespace ubank_api.Data.Models.Entities
 
         public Client? Client { get; set; }
 
+        //public virtual List<Transaction> InTransactions { get; set; }
+
+        //public virtual List<Transaction> OutTransactions { get; set; }
+
         public Account() { }
 
         public Account(AccountIn accountIn)

@@ -30,7 +30,7 @@ namespace ubank_api.Data.Models.Entities
 
         public RoleEnum Role { get; set; } = RoleEnum.User;
 
-        public Client? Client { get; set; }
+        public virtual Client? Client { get; set; }
         public User() { }
 
         public User(UserRegister userIn, byte[] passwordHash, byte[] passwordSalt)

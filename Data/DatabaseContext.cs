@@ -6,13 +6,15 @@ namespace ubank_api.Data
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<City> Cities { get; set; }
+        public DbSet<City> Cities => Set<City>();
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users => Set<User>();
 
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Client> Clients => Set<Client>();
 
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Account> Accounts => Set<Account>();
+
+        public DbSet<Transaction> Transactions => Set<Transaction>();
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 

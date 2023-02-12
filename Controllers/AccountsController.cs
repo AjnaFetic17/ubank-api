@@ -39,7 +39,7 @@ namespace ubank_api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetClient(Guid id)
+        public IActionResult GetAccount(Guid id)
         {
             try
             {
@@ -147,6 +147,5 @@ namespace ubank_api.Controllers
             }
             return BadRequest();
         }
-
     }
 }
