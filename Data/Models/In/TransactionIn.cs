@@ -10,7 +10,7 @@ namespace ubank_api.Data.Models.In
         public Guid FromAccountId { get; set; }
 
         [Required]
-        public string ToAccountNumber { get; set; }
+        public string ToAccountNumber { get; set; } = string.Empty; 
 
         [Required]
         public float Amount { get; set; }
