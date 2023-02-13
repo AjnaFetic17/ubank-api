@@ -66,6 +66,24 @@ namespace ubank_api.Controllers
             return NotFound();
         }
 
+        [HttpGet("{email}")]
+        public IActionResult GetUserByEmail(string email)
+        {
+            try
+            {
+                var result = _userService.GetUserByEmail(email);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ControllerMessage(e.Message));
+            }
+            return NotFound();
+        }
+
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserRegister request)
         {

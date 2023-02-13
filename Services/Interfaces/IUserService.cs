@@ -11,6 +11,8 @@ namespace ubank_api.Services.Interfaces
 
         public UserOut? GetUser(Guid id);
 
+        public UserOut? GetUserByEmail(string email);
+
         bool CreateUser(UserRegister userIn);
 
         public UserOut? UpdateUser(UserIn user, Guid id);

@@ -64,7 +64,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ClockSkew = new System.TimeSpan(0, 0, 0)
     };
 });
+var policyName = "_myAllowSpecificOrigins";
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: policyName,
+                      builder =>
+                      {
+                          builder
+                            .WithOrigins("http://localhost:3000") // specifying the allowed origin
+                            .WithMethods("*") // defining the allowed HTTP method
+                            .AllowAnyHeader(); // allowing any header to be sent
+                      });
+});
 builder.Services.AddMemoryCache();
 
 var app = builder.Build();
@@ -77,6 +89,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(policyName);
 
 app.UseAuthentication();
 

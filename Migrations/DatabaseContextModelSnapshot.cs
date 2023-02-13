@@ -55,7 +55,7 @@ namespace ubankapi.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("ubank_api.Data.Models.Entities.City", b =>
@@ -94,7 +94,7 @@ namespace ubankapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("ubank_api.Data.Models.Entities.Client", b =>
@@ -141,7 +141,7 @@ namespace ubankapi.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("ubank_api.Data.Models.Entities.Transaction", b =>
@@ -177,7 +177,7 @@ namespace ubankapi.Migrations
 
                     b.HasIndex("ToAccountId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("ubank_api.Data.Models.Entities.User", b =>
@@ -223,7 +223,7 @@ namespace ubankapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ubank_api.Data.Models.Entities.Account", b =>

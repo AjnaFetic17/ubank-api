@@ -32,6 +32,18 @@ namespace ubank_api.Services
             return null;
         }
 
+        public UserOut? GetUserByEmail(string email)
+        {
+            var result = _context.Users.Where(user => user.Email == email).SingleOrDefault();
+
+            if (result != null)
+            {
+                return new UserOut(result);
+            }
+
+            return null;
+        }
+
         public List<UserOut>? GetUsers()
         {
             var items = _context.Users.OrderBy(x => x.Id).Select(u => new UserOut(u)).ToList();
