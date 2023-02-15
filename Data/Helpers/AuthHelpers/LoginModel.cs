@@ -2,7 +2,7 @@
 {
     public class LoginModel
     {
-        public UserLogin? Client { get; set; }
+        public UserLogin? User { get; set; }
 
         public string GrantType { get; set; } = string.Empty;
 

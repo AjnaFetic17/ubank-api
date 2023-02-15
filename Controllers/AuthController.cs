@@ -6,7 +6,8 @@ using ubank_api.Services.Interfaces;
 namespace ubank_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _serviceAuth;
@@ -23,12 +24,12 @@ namespace ubank_api.Controllers
             {
                 if (request.GrantType == "password")
                 {
-                    if (request.Client == null || request.Client.Password == null || request.Client.Email == null)
+                    if (request.User == null || request.User.Password == null || request.User.Email == null)
                     {
                         return BadRequest(new ControllerMessage("Invalid client request."));
                     }
 
-                    var result = _serviceAuth.UserLogin(request.Client);
+                    var result = _serviceAuth.UserLogin(request.User);
 
                     return Ok(result);
                 }

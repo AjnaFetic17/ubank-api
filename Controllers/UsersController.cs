@@ -9,7 +9,7 @@ namespace ubank_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="admin")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -22,6 +22,7 @@ namespace ubank_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUsers()
         {
             try
@@ -65,8 +66,7 @@ namespace ubank_api.Controllers
             }
             return NotFound();
         }
-
-        [HttpGet("{email}")]
+        [HttpGet("email")]
         public IActionResult GetUserByEmail(string email)
         {
             try
@@ -85,6 +85,7 @@ namespace ubank_api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateUser([FromBody] UserRegister request)
         {
             try
@@ -127,6 +128,7 @@ namespace ubank_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(Guid id)
         {
             if (_userService.DeleteUser(id))

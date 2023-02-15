@@ -66,7 +66,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
-    builder.WithOrigins("localhost:3000").AllowAnyMethod().AllowAnyHeader();
+    builder.WithOrigins("localhost:3000", "http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
 }));
 builder.Services.AddMemoryCache();
 
