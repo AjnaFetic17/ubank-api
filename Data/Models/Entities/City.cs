@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ubank_api.Data.Models.In;
 
 namespace ubank_api.Data.Models.Entities
 {
@@ -20,5 +21,12 @@ namespace ubank_api.Data.Models.Entities
         public string Country { get; set; } = string.Empty;
 
         public City() { }
+        public City(CityIn cityIn)
+        {
+            CityName = cityIn.CityName;
+            Region = cityIn.Region;
+            PostalCode = cityIn.PostalCode;
+            Country = cityIn.Country;
+        }
     }
 }

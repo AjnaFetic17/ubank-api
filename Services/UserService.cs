@@ -1,4 +1,5 @@
-﻿using ubank_api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ubank_api.Data;
 using ubank_api.Data.Helpers;
 using ubank_api.Data.Helpers.AuthHelpers;
 using ubank_api.Data.Models.Entities;
@@ -70,6 +71,8 @@ namespace ubank_api.Services
             var added = new User(userIn, passwordHash, passwordSalt);
 
             _context.Users.Add(added);
+            _cacheService.RemoveFromCache(CacheKeys.User);
+
             _context.SaveChanges();
             return true;
         }
@@ -96,7 +99,16 @@ namespace ubank_api.Services
 
             if (result != null)
             {
+                var cli = _context.Clients.Where(cli=> cli.Id== id).Include(cli=>cli.Accounts).SingleOrDefault();
+                if(cli != null)
+                {
+                    var temp = cli;
+                    temp.IsDeleted = true;
+                    temp.Accounts?.ForEach(acc => acc.IsDeleted = true);
+                    _context.Clients.Entry(cli).CurrentValues.SetValues(temp);
+                }
                 _context.Users.Remove(result);
+                _context.SaveChanges();
                 _cacheService.RemoveFromCache(CacheKeys.User);
 
                 return true;

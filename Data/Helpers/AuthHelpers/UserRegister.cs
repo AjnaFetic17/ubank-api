@@ -4,12 +4,12 @@ namespace ubank_api.Data.Helpers.AuthHelpers
 {
     public class UserRegister
     {
-        [Required]
-        [StringLength(255)]
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(maximumLength: 255, ErrorMessage = "First name provided is too long.")]
         public string FirstName { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(255)]
+        [Required(ErrorMessage = "Last name is required")]
+        [StringLength(maximumLength: 255, ErrorMessage = "Last name provided is too long.")]
         public string LastName { get; set; } = string.Empty;
 
         [EmailAddress]

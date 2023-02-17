@@ -19,8 +19,5 @@ namespace ubank_api.Data.Models.In
         [StringLength(maximumLength: 255, ErrorMessage = "Last name provided is too long.")]
         public string LastName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Username is required")]
-        [StringLength(maximumLength: 255, ErrorMessage = "Username provided is too long.")]
-        public string Username { get; set; } = string.Empty;
     }
 }

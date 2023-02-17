@@ -8,9 +8,14 @@ namespace ubank_api.Data.Models.Out
 
         public string Email { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         public UserOut(User user) { 
             Id= user.Id;
             Email= user.Email;
+            FirstName= user.FirstName;
+            LastName= user.LastName;
         }
     }
 }

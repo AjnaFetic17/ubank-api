@@ -38,6 +38,8 @@ namespace ubank_api.Data.Models.Entities
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
             Email = userIn.Email;
+            FirstName= userIn.FirstName;
+            LastName= userIn.LastName;
         }
     }
 }

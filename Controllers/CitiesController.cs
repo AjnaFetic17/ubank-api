@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ubank_api.Data.Helpers;
-using ubank_api.Data.Helpers.AuthHelpers;
 using ubank_api.Data.Models.In;
 using ubank_api.Services.Interfaces;
 
@@ -10,31 +9,30 @@ namespace ubank_api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UsersController : ControllerBase
+    public class CitiesController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly ICityService _cityService;
         private readonly ICacheService _cacheService;
 
-        public UsersController(IUserService service, ICacheService cacheService)
+        public CitiesController(ICityService service, ICacheService cacheService)
         {
-            _userService = service;
+            _cityService = service;
             _cacheService = cacheService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
-        public IActionResult GetUsers()
+        public IActionResult GetCities()
         {
             try
             {
-                var cacheResult = _cacheService.GetFromCache(CacheKeys.User);
+                var cacheResult = _cacheService.GetFromCache(CacheKeys.City);
                 if (cacheResult != null)
                 {
                     return Ok(cacheResult);
                 }
                 else
                 {
-                    var items = _userService.GetUsers();
+                    var items = _cityService.GetCities();
                     if (items != null)
                     {
                         return Ok(items);
@@ -50,29 +48,11 @@ namespace ubank_api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(Guid id)
+        public IActionResult GetCity(Guid id)
         {
             try
             {
-                var result = _userService.GetUser(id);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new ControllerMessage(e.Message));
-            }
-            return NotFound();
-        }
-
-        [HttpGet("email")]
-        public IActionResult GetUserByEmail(string email)
-        {
-            try
-            {
-                var result = _userService.GetUserByEmail(email);
+                var result = _cityService.GetCity(id);
                 if (result != null)
                 {
                     return Ok(result);
@@ -86,36 +66,39 @@ namespace ubank_api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
-        public IActionResult CreateUser([FromBody] UserRegister request)
+        public IActionResult CreateCity(CityIn city)
         {
+
             try
             {
-                var result = _userService.CreateUser(request);
-
-                return Ok(result);
+                var result = _cityService.CreateCity(city);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
             }
             catch (ArgumentException e)
             {
-                return StatusCode(409, new ControllerMessage(e.Message));
+                return BadRequest(new ControllerMessage(e.Message));
             }
+            return BadRequest();
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditUser([FromBody] UserIn user, Guid id)
+        public IActionResult EditCity([FromBody] CityIn city, Guid id)
         {
             try
             {
-                if (user.Id == id)
+                if (city.Id == id)
                 {
-                    var result = _userService.UpdateUser(user, id);
+                    var result = _cityService.UpdateCity(city, id);
 
                     if (result != null)
                     {
                         return Ok(result);
                     }
 
-                    return NotFound(new ControllerMessage("There is no user with this id."));
+                    return NotFound(new ControllerMessage("There is no client with this id."));
                 }
                 else
                 {
@@ -129,10 +112,9 @@ namespace ubank_api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
-        public IActionResult DeleteUser(Guid id)
+        public IActionResult DeleteCity(Guid id)
         {
-            if (_userService.DeleteUser(id))
+            if (_cityService.DeleteCity(id))
             {
                 return StatusCode(204);
             }
